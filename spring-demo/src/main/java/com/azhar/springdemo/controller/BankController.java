@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/bank")
 public class BankController {
 
     @Autowired
@@ -19,12 +20,12 @@ public class BankController {
         bankService.saveBankInfo(bank);
     }
 
-    @GetMapping("/bankDetails/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = {"/bankDetails/{id}"})
     public Optional<Bank> getBankDetails(@PathVariable("id") Integer id){
         return bankService.getBankById(id);
     }
 
-    @GetMapping("/banks")
+    @RequestMapping(method = RequestMethod.GET, value = {"/banks"})
     public List<Bank> getBankDetails(){
         return bankService.getAllBanks();
     }
