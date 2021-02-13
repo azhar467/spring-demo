@@ -1,5 +1,6 @@
 package com.azhar.springdemo.controller;
 
+import com.azhar.springdemo.exception.BankNotFoundException;
 import com.azhar.springdemo.model.Bank;
 import com.azhar.springdemo.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,16 @@ public class BankController {
     @RequestMapping(method = RequestMethod.GET, value = {"/banks"})
     public List<Bank> getBankDetails(){
         return bankService.getAllBanks();
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE,value = {"/bankDetails/{id}"})
+    public void deleteBank(@PathVariable("id") Integer id){
+        bankService.deleteBank(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT,value = {"/bankDetails/{id}"})
+    public void updateBank(@PathVariable Integer id,@RequestBody Bank updationBankDetails) throws BankNotFoundException {
+        bankService.updateBank(id,updationBankDetails);
     }
 
 }
