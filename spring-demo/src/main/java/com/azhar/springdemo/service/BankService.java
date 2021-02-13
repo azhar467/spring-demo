@@ -1,33 +1,21 @@
 package com.azhar.springdemo.service;
 
+import com.azhar.springdemo.exception.BankNotFoundException;
 import com.azhar.springdemo.model.Bank;
-import com.azhar.springdemo.repository.BankRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BankService {
+public interface BankService {
+    void updateBank(Integer id, Bank updationBankDetails) throws BankNotFoundException;
 
-    @Autowired
-    private BankRepository bankRepository;
+    void deleteBank(Integer id);
 
-    public void saveBankInfo(Bank bank){
-        bankRepository.save(bank);
-    }
+    List<Bank> getAllBanks();
 
-    public Optional<Bank> getBankById(Integer id){
-        return bankRepository.findById(id);
-    }
+    Optional<Bank> getBankById(Integer id);
 
-    public List<Bank> getAllBanks(){
-        return bankRepository.findAll();
-    }
-
-    public void deleteBank(Integer id){
-        bankRepository.deleteById(id);
-    }
-
+    void saveBankInfo(Bank bank);
 }
