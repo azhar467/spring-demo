@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.base.Predicate;
 
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -25,6 +26,14 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .select().apis(RequestHandlerSelectors.basePackage("com.azhar.springdemo.controller"))
                 .paths(regex("/bank.*"))
                 .build();
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }
