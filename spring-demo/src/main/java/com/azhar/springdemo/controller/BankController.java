@@ -4,6 +4,7 @@ import com.azhar.springdemo.exception.BankNotFoundException;
 import com.azhar.springdemo.model.Bank;
 import com.azhar.springdemo.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,26 +18,31 @@ public class BankController {
     BankService bankService;
 
     @PostMapping("/saveBank")
+    @ResponseStatus(HttpStatus.CREATED)
     public void saveBank(@RequestBody Bank bank){
         bankService.saveBankInfo(bank);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/bankDetails/{id}"})
+    @GetMapping("/bankDetails/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Optional<Bank> getBankDetails(@PathVariable("id") Integer id){
         return bankService.getBankById(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/banks"})
-    public List<Bank> getBankDetails(){
+    @GetMapping({"/banks"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Bank> getAllBanksDetails(){
         return bankService.getAllBanks();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE,value = {"/bankDetails/{id}"})
+    @DeleteMapping({"/bankDetails/{id}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBank(@PathVariable("id") Integer id){
         bankService.deleteBank(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT,value = {"/bankDetails/{id}"})
+    @PutMapping({"/bankDetails/{id}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBank(@PathVariable Integer id,@RequestBody Bank updationBankDetails) throws BankNotFoundException {
         bankService.updateBank(id,updationBankDetails);
     }
