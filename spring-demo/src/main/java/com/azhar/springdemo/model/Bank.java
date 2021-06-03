@@ -1,12 +1,14 @@
 package com.azhar.springdemo.model;
 
 import lombok.Data;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table
 @Data
 @Entity
-public class Bank {
+public class Bank implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column
