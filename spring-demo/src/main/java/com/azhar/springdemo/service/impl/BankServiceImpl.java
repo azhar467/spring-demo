@@ -1,14 +1,17 @@
-package com.azhar.springdemo.service;
+package com.azhar.springdemo.service.impl;
 
 import com.azhar.springdemo.exception.BankNotFoundException;
 import com.azhar.springdemo.model.Bank;
 import com.azhar.springdemo.repository.BankRepository;
+import com.azhar.springdemo.service.BankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -28,8 +31,10 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<Bank> getAllBanks(){
-        return bankRepository.findAll();
+    @Async
+    public CompletableFuture<List<Bank>> getAllBanks(){
+        final List<Bank> banksList= bankRepository.findAll();
+        return CompletableFuture.completedFuture(banksList);
     }
 
     @Override
@@ -38,9 +43,9 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void updateBank(Integer id,Bank updationBankDetails) throws BankNotFoundException {
+    public void updateBank(Integer id,Bank updatingBankDetails) throws BankNotFoundException {
         if (bankRepository.existsById(id)){
-            bankRepository.save(updationBankDetails);
+            bankRepository.save(updatingBankDetails);
         } else {
             throw new BankNotFoundException(id);
         }

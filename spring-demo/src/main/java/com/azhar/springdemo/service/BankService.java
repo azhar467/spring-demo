@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public interface BankService {
@@ -13,7 +14,7 @@ public interface BankService {
 
     void deleteBank(Integer id);
 
-    List<Bank> getAllBanks();
+    CompletableFuture<List<Bank>> getAllBanks();
 
     Optional<Bank> getBankById(Integer id);
 

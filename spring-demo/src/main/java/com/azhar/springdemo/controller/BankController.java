@@ -10,12 +10,14 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/bank")
+@RequestMapping(value = "/bank", produces = "application/hal+json")
 @Api(value = "Bank Resource REST End Point",description = "Shows bank Info")
 public class BankController {
 
@@ -42,7 +44,7 @@ public class BankController {
 
     @GetMapping({"/banks"})
     @ResponseStatus(HttpStatus.OK)
-    public List<Bank> getAllBanksDetails(){
+    public CompletableFuture<List<Bank>> getAllBanksDetails(){
         return bankService.getAllBanks();
     }
 
@@ -54,8 +56,8 @@ public class BankController {
 
     @PutMapping({"/bankDetails/{id}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBank(@PathVariable Integer id,@RequestBody Bank updationBankDetails) throws BankNotFoundException {
-        bankService.updateBank(id,updationBankDetails);
+    public void updateBank(@PathVariable Integer id,@RequestBody Bank updatingBankDetails) throws BankNotFoundException {
+        bankService.updateBank(id,updatingBankDetails);
     }
 
 }
