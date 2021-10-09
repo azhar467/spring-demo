@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -26,15 +25,16 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Optional<Bank> getBankById(Integer id){
-        return bankRepository.findById(id);
+    public List<Bank> getBankById(Integer id){
+        List<Bank> bankList = new ArrayList<>();
+        bankList.add(bankRepository.findById(id).get());
+        return bankList;
     }
 
     @Override
-    @Async
-    public CompletableFuture<List<Bank>> getAllBanks(){
-        final List<Bank> banksList= bankRepository.findAll();
-        return CompletableFuture.completedFuture(banksList);
+    public List<Bank> getAllBanks(){
+        log.info("all banks "+bankRepository.findAll());
+        return bankRepository.findAll();
     }
 
     @Override

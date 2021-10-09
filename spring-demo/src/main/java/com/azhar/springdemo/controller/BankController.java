@@ -3,15 +3,15 @@ package com.azhar.springdemo.controller;
 import com.azhar.springdemo.exception.BankNotFoundException;
 import com.azhar.springdemo.model.Bank;
 import com.azhar.springdemo.service.BankService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
+@Slf4j
 @RequestMapping(value = "/bank", produces = "application/json")
 public class BankController {
 
@@ -26,13 +26,14 @@ public class BankController {
 
     @GetMapping("/bankDetails/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Bank> getBankDetails(@PathVariable("id") Integer id){
-        return bankService.getBankById(id);
+    public List<Bank> getBankDetailsByID(@PathVariable("id") Optional<Integer> id){
+        return bankService.getBankById(id.get());
     }
 
-    @GetMapping({"/banks"})
+    @GetMapping(value={"/bankDetails"})
     @ResponseStatus(HttpStatus.OK)
-    public CompletableFuture<List<Bank>> getAllBanksDetails(){
+    public List<Bank> getAllBankDetails(){
+        log.info("all bank details "+bankService.getAllBanks());
         return bankService.getAllBanks();
     }
 

@@ -5,8 +5,6 @@ import com.azhar.springdemo.model.Bank;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public interface BankService {
@@ -14,9 +12,9 @@ public interface BankService {
 
     void deleteBank(Integer id);
 
-    CompletableFuture<List<Bank>> getAllBanks();
+    List<Bank> getAllBanks();
 
-    Optional<Bank> getBankById(Integer id);
+    List<Bank> getBankById(Integer id);
 
     void saveBankInfo(Bank bank);
 }
